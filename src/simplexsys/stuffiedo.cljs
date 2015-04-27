@@ -61,10 +61,33 @@
                                         true ])
                (reset! ui/history-list (remove #{i} @ui/history-list))))
 
+(go-loop-sub messagepub :login [_]
+             (let [h (.parseHash ui/authLock (.-hash (.-location js/window)))]
+               (when h
+                 (reset! ui/auth (js->clj h :keywordize-keys true))
+                 (let [storedAuth (.decompressFromUTF16 js/LZString (.getItem js/localStorage "simplexsys.stuffiedo.auth"))] 
+                   (when (not= storedAuth @ui/auth)
+                     (async/put! ui/messageq [:save-auth @ui/auth]))))
+               (when @ui/auth 
+                 (async/put! ui/messageq [:get-profile]))))
+
+(go-loop-sub messagepub :logout [_]
+             (.removeItem js/localStorage "simplexsys.stuffiedo.auth")
+             (reset! ui/auth nil))
+
+(go-loop-sub messagepub :get-profile [_]
+             (.getProfile ui/authLock 
+                          (:id_token @ui/auth) 
+                          (fn [err p] (when p 
+                                        (reset! ui/profile (js->clj p :keywordize-keys true))))))
 (defn- read-local-storage []
-  (doseq [v [[conn "simplexsys.stuffiedo"]]]
+  (doseq [v [[conn "simplexsys.stuffiedo"] [ui/auth "simplexsys.stuffiedo.auth"]]]
     (when-let [stored (.getItem js/localStorage (second v))]
       (reset! (first v) (reader/read-string (.decompressFromUTF16 js/LZString stored))))))
+
+(defn- check-auth []
+  (when (< (:exp (:profile @ui/auth)) (/ (.getTime (dt-core/now)) 1000))
+    (reset! ui/auth nil)))
 
 (defonce init (fn []
                 (println "initializing application")
@@ -76,9 +99,11 @@
                                                      (save-data conn))
                                   :timeout-handler (fn [] 
                                                      (read-local-storage) 
+                                                     (check-auth)
                                                      (ui/mount) ))
                   (let [] 
                     (read-local-storage)
+                    (check-auth)
                     (ui/mount)))))
 
 (init)
