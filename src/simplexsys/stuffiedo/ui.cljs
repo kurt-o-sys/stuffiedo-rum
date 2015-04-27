@@ -28,7 +28,7 @@
 (rum/defc auth-menu < {:will-mount (fn [] 
                                      (let [h (.parseHash authLock (.-hash (.-location js/window)))]
                                        (when h
-                                         (reset! auth (js->clj h  :keywordize-keys true))
+                                         (reset! auth (js->clj h :keywordize-keys true))
                                          (let [storedAuth (.decompressFromUTF16 js/LZString (.getItem js/localStorage "simplexsys.stuffiedo.auth"))] 
                                            (when (not= storedAuth @auth)
                                              (async/put! messageq [:save-auth @auth]))))))} []
@@ -41,9 +41,17 @@
                     (fn [err p] (when profile 
                                   (reset! profile (js->clj p :keywordize-keys true))
                                   (println @profile))))
-       [:p 
-        [:span {:on-click (fn [] (.removeItem js/localStorage "simplexsys.stuffiedo.auth"))} "log out"]
-        [:span "logged in as: " (:sub (:profile @auth))]])
+       [:div
+                          (println (clj->js {:callbackUrl "http://localhost:3449/" 
+                                        :dict {:signin {:title "link account:"}} 
+                                        :authParams {:access_token (:access_token @auth)}}))
+
+       [:p {:on-click (fn [] (.removeItem js/localStorage "simplexsys.stuffiedo.auth"))} "log out"]
+        [:p "logged in as: " (:sub (:profile @auth))]
+        [:p {:on-click (fn [] 
+                         (.show authLock (clj->js {:callbackUrl "http://localhost:3449/" 
+                                        :dict {:signin {:title "link account:"}} 
+                                        :authParams {:access_token (:access_token @auth)}})))} "link account:" ]])
      (login))
    ])
 
@@ -188,11 +196,14 @@
             :font-size "12px"}}
    [:.name 
     {:style {:float "left"}}
-    "by simplexsys"]
+    [:img {:src "./css/simplexsys.png"
+           :width "50px"
+           :vertical-align "middle"}]]
    [:a {:href "http://www.wtfpl.net/"}
     [:img 
      {:src "http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png"
-      :style {:float "right"}
+      :style {:float "right"
+              :margin-top "20px"}
       :width "80" :height "15" :alt "WTFPL"}]] ])
 
 (rum/defc body []
