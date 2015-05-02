@@ -20,6 +20,9 @@
 
   :plugins [[lein-cljsbuild "1.0.4"]
             [lein-figwheel "0.2.5-SNAPSHOT"]
+            [lein-cljsasset "0.2.0"]
+            [lein-asset-minifier "0.2.2"]
+            [com.cemerick/clojurescript.test "0.3.3"]
             [com.cemerick/clojurescript.test "0.3.3"]
             [com.cemerick/austin "0.1.6"]]
 
@@ -27,8 +30,9 @@
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled"]
 
-  :cljsbuild {
-              :builds [{:id "dev"
+  :minify-assets {:assets {"resources/public/css/style.min.css" "resources/css/style.css"} }
+
+  :cljsbuild {:builds [{:id "dev"
                         :source-paths ["src" "dev_src"] 
                         :compiler {:output-to "resources/public/js/compiled/stuffiedo.js"
                                    :output-dir "resources/public/js/compiled/out"
