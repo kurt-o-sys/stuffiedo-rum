@@ -1,0 +1,190 @@
+/* some style */
+
+body {
+	background-color: #a7cfeb;
+	padding: 0;
+	margin: 0;
+}
+
+h1, h2 {
+	color: #4e8fbb;
+}
+
+nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 58px;
+	background-color: white;
+	border-bottom: 1px solid #4e8fbb;
+	z-index: 100;
+}
+
+nav h1 {
+	position: fixed;
+	width: 38%;
+	left: 31%;
+	text-align: center;
+	margin-top: 5px;
+}
+
+nav h1 .app-name {
+	visibility: hidden;
+}
+
+nav #addstuffie {
+	text-align:center;
+	margin-top: 50px;
+}
+
+nav .right-nav {
+	position:fixed;	
+	right: 2%;
+	top: 5px;
+	width: 38%;
+	text-align: right;
+}
+
+nav .left-nav {
+	position:fixed;	
+	left: 2%;
+	top: 5px;
+	width: 38%;
+	text-align: left;
+}
+
+nav ul {
+	margin: 0;
+	padding: 0;
+	font-size: 14px;
+}
+
+nav #addstuffie form,
+nav ul ul {
+	padding: 10px;
+	background: white;
+	border-radius: 7px;
+	box-shadow: 7px 7px 5px rgb(127,127,127);
+}
+
+nav #addstuffie form {
+	width: 38%;
+	margin-left: 31%;
+}
+
+nav ul li {
+	list-style: none;
+}
+
+nav  li > ul  {
+	display: none;
+}
+
+nav  li:hover > ul {
+	display: block;
+}
+
+section.block-group {
+	margin-top:85px;
+}
+
+article {
+	padding: 0 0.5em 1em 0.5em;
+	min-height: 20em;
+	border: 4px ridge rgb(127,127,127);
+}
+article#\:done {
+	width: 100%;
+	background-color: #99ff99;
+	
+}
+article#\:dropped {
+	width: 100%;
+	background-color: #ff9999;
+	color: "white";
+}
+article#\:doing {
+	width: 38%;
+}
+
+article#\:on-hold {
+	width: 62%;
+}
+article#\:on-deck {
+	width: 100%;
+} 
+article#\:logback {
+	width: 100%;
+} 
+article#\:request {
+	width: 62%; 
+	background-color: #ffff99;
+} 
+article#\:denied {
+	width: 38%;
+	background-color: #ff9999;
+}
+
+article#\:denied h1,
+article#\:dropped h1 {
+	color: white;
+}
+
+.counter {
+	font-size: 62%;
+	padding-left: 10px;
+	padding-right:10px;	
+	vertical-align: top;
+}
+
+.counter:before {
+	content: '(';
+}
+
+.counter:after {
+	content: ')';
+}
+
+ul.stuff {
+	margin: 0;
+	padding: 0;
+	background: none;
+	text-align: center;
+}
+
+ul.stuff li {
+	list-style: none;
+	margin: 0.4em;
+	padding: 0.5em;
+	float: left;
+	width: 7.5em;
+	height: 7.5em;
+	background-color: #ffc;
+	color:blue;
+	font-family:"Reenie Beanie", arial, sans-serif;
+	font-size: 22px;
+	box-shadow: 3px 5px 15px rgba(0, 0, 0, 0.38), inset -11px -7px 40px rgba(0, 0, 0, 0.14);
+	z-index: 0;
+}
+
+ul.stuff .title {
+	font-size: 114%;
+	text-decoration: underline;
+}
+
+.allowdrop {
+	background-color: rgba(127,255,127,0.38);
+	border: 4px dotted green;
+}
+
+footer {
+	background-color:white;
+	height:55px;
+ padding-top: 20px;
+            padding-left: 5px;
+            padding-right: 5px;
+            padding-bottom: 5px;
+            margin: 0;
+            font-size: 12px;
+   }
