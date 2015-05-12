@@ -15,13 +15,11 @@
         (timeout-handler)) ))
 
 
-
 (defn is-connected? []
   (vertx/open? @eb))
 
 (defn readystate []
   (vertx/ready-state @eb))
-
 
 (defn get-data [conn]
   (ds/transact! conn [{:stage/order 7

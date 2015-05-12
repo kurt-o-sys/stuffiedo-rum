@@ -91,13 +91,17 @@
 
 (defonce init (fn []
                 (println "initializing application")
+                (println "online?" *online*)
                 (if *online* 
                   (server/connect "http://localhost:3449/stuffiedo"
                                   :timeout 500
                                   :connect-handler (fn []
+                                                     (println "online connected")
                                                      (server/get-data conn)
                                                      (save-data conn))
                                   :timeout-handler (fn [] 
+                                                     (println "not connected - timeout")
+                                                     (server/get-data conn)
                                                      (read-local-storage) 
                                                      (check-auth)
                                                      (ui/mount) ))
